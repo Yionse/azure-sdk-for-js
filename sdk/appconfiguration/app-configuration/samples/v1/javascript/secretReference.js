@@ -10,7 +10,7 @@ const {
   parseSecretReference,
 } = require("@azure/app-configuration");
 const { parseKeyVaultSecretIdentifier, SecretClient } = require("@azure/keyvault-secrets");
-const { DefaultAzureCredential } = require("@azure/identity");
+const { DefaultAzureCredential, AzureCliCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -27,9 +27,9 @@ async function main() {
 
   console.log(`Get the added secretReference from App Config with key: ${key}`);
   // Set the following environment variable or edit the value on the following line.
-  const endpoint = process.env["AZ_CONFIG_ENDPOINT"] || "";
+  const endpoint = process.env["APPCONFIG_CONNECTION_STRING"] || "";
   const credential = new DefaultAzureCredential();
-  const appConfigClient = new AppConfigurationClient(endpoint, credential);
+  const appConfigClient = new AppConfigurationClient(endpoint);
   const getResponse = await appConfigClient.getConfigurationSetting({
     key,
   });
@@ -42,7 +42,7 @@ async function main() {
     parsedSecretReference.value.secretId,
   );
 
-  const secretClient = new SecretClient(vaultUrl, new DefaultAzureCredential());
+  const secretClient = new SecretClient(vaultUrl, new AzureCliCredential());
   try {
     // Read the secret we created
     const secret = await secretClient.getSecret(secretName);
@@ -81,7 +81,7 @@ async function setup(key) {
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
   // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
   // - AZURE_CLIENT_SECRET: The client secret for the registered application
-  const secretClient = new SecretClient(process.env["KEYVAULT_URI"], new DefaultAzureCredential());
+  const secretClient = new SecretClient(process.env["KEYVAULT_URI"], new AzureCliCredential());
   const secretName = `secret-${Date.now()}`;
   // Create a secret
   console.log(`Create a keyvault secret with key: ${secretName}  and value: "MySecretValue"`);
@@ -97,9 +97,9 @@ async function setup(key) {
 
 async function createConfigSetting(key, secretId) {
   // Set the following environment variable or edit the value on the following line.
-  const endpoint = process.env["AZ_CONFIG_ENDPOINT"] || "<endpoint>";
+  const endpoint = process.env["APPCONFIG_CONNECTION_STRING"] || "<endpoint>";
   const credential = new DefaultAzureCredential();
-  const appConfigClient = new AppConfigurationClient(endpoint, credential);
+  const appConfigClient = new AppConfigurationClient(endpoint);
 
   const secretReference = {
     key,

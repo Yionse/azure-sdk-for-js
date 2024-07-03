@@ -16,10 +16,10 @@ async function main() {
   console.log("Running get setting only if changed sample");
 
   // Set the following environment variable or edit the value on the following line.
-  const endpoint = process.env["AZ_CONFIG_ENDPOINT"] || "<endpoint>";
+  const endpoint = process.env["APPCONFIG_CONNECTION_STRING"] || "<endpoint>";
 
   const credential = new DefaultAzureCredential();
-  const client = new AppConfigurationClient(endpoint, credential);
+  const client = new AppConfigurationClient(endpoint);
 
   const key = "getSettingOnlyIfChangedExample";
   await cleanupSampleValues([key], client);

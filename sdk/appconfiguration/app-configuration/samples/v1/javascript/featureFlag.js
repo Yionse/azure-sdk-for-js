@@ -58,9 +58,9 @@ async function main() {
   };
 
   // Set the following environment variable or edit the value on the following line.
-  const endpoint = process.env["AZ_CONFIG_ENDPOINT"] || "<endpoint>";
+  const endpoint = process.env["APPCONFIG_CONNECTION_STRING"] || "<endpoint>";
   const credential = new DefaultAzureCredential();
-  const appConfigClient = new AppConfigurationClient(endpoint, credential);
+  const appConfigClient = new AppConfigurationClient(endpoint);
 
   await cleanupSampleValues([originalFeatureFlag.key], appConfigClient);
 

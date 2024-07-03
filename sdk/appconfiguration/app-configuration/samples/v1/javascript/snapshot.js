@@ -14,13 +14,13 @@ async function main() {
   console.log(`Running snapshot sample`);
 
   // Set the following environment variable or edit the value on the following line.
-  const endpoint = process.env["AZ_CONFIG_ENDPOINT"] || "<endpoint>";
+  const endpoint = process.env["APPCONFIG_CONNECTION_STRING"] || "<endpoint>";
 
   const credential = new DefaultAzureCredential();
-  const client = new AppConfigurationClient(endpoint, credential);
+  const client = new AppConfigurationClient(endpoint);
 
-  const key2 = "Samples:key2";
-  const key1 = "Samples:key1";
+  const key2 = "Samples:key2" + +new Date();
+  const key1 = "Samples:key1" + +new Date();
 
   // creating a new setting
   console.log(`Adding in new setting ${key1}`);
@@ -32,7 +32,7 @@ async function main() {
 
   // creating a new snapshot
   const newSnapshot = await client.beginCreateSnapshotAndWait({
-    name: "mySnapshot",
+    name: "mySnapshot" + +new Date(),
     filters: [
       {
         keyFilter: key1,
@@ -54,7 +54,7 @@ async function main() {
 
   // creating a new snapshot
   const newSnapshot2 = await client.beginCreateSnapshotAndWait({
-    name: "mySnapshot2",
+    name: "mySnapshot2" + +new Date(),
     filters: [
       {
         keyFilter: key2,
