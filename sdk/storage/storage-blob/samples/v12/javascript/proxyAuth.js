@@ -20,6 +20,7 @@ async function main() {
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
   // To use the manual proxyOptions below, remove this block
+  
   if (!process.env.HTTP_PROXY || !process.env.HTTPS_PROXY) {
     console.warn("Proxy information not provided, but it is required to run this sample. Exiting.");
     return;

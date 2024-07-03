@@ -38,9 +38,9 @@ async function main() {
   console.log(`Create container ${containerName} successfully`, createContainerResponse.requestId);
 
   // Delete container
-  await containerClient.delete();
+  // await containerClient.delete();
 
-  console.log("deleted container");
+  // console.log("deleted container");
 }
 
 main().catch((error) => {
