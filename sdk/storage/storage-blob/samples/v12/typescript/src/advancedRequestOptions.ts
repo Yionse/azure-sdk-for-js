@@ -12,6 +12,7 @@ import { AnonymousCredential, BlobServiceClient, newPipeline } from "@azure/stor
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
+
 dotenv.config();
 
 // Enabling logging may help uncover useful information about failures.
@@ -21,11 +22,12 @@ dotenv.config();
 import { setLogLevel } from "@azure/logger";
 setLogLevel("info");
 
+// Error
 async function main() {
   // Fill in following settings before running this sample
   const account = process.env.ACCOUNT_NAME || "<account name>";
   const accountSas = process.env.ACCOUNT_SAS || "";
-  const localFilePath = "README.md";
+  const localFilePath = "../README.md";
 
   const pipeline = newPipeline(new AnonymousCredential(), {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
@@ -38,12 +40,12 @@ async function main() {
   });
 
   const blobServiceClient = new BlobServiceClient(
-    `https://${account}.blob.core.windows.net${accountSas}`,
+    `https://${account}.blob.core.windows.net?${accountSas}`,
     pipeline
   );
 
   // Create a container
-  const containerName = `newcontainer${new Date().getTime()}`;
+  const containerName = `newcontainer${new Date().getTime()} TypeScript`;
   const containerClient = blobServiceClient.getContainerClient(containerName);
   try {
     await containerClient.create();

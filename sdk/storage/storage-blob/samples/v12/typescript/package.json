@@ -32,7 +32,7 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob",
   "dependencies": {
-    "@azure/storage-blob": "latest",
+    "@azure/storage-blob": "dev",
     "dotenv": "latest",
     "@azure/abort-controller": "^1.0.0",
     "@azure/logger": "^1.0.0",
