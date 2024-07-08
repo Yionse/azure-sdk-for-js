@@ -31,12 +31,12 @@ export async function main() {
   });
 
   const serviceClient = new ShareServiceClient(
-    `https://${account}.file.core.windows.net${accountSas}`,
+    `https://${account}.file.core.windows.net?${accountSas}`,
     pipeline
   );
 
   // Create a share
-  const shareName = `newshare${new Date().getTime()}`;
+  const shareName = `newshare${new Date().getTime()}tc`;
   const shareClient = serviceClient.getShareClient(shareName);
   await shareClient.create();
   console.log(`Created share ${shareName} successfully`);
@@ -92,7 +92,7 @@ export async function main() {
   console.log("downloadToBuffer succeeded");
 
   // Delete share
-  await shareClient.delete();
+  // await shareClient.delete();
   console.log(`Deleted share ${shareClient.name}`);
 }
 
