@@ -6,7 +6,7 @@
  */
 
 const { QueueServiceClient, AnonymousCredential } = require("@azure/storage-queue");
-
+const { AzureCliCredential } = require("@azure/identity");
 // Load the .env file if it exists
 require("dotenv").config();
 
@@ -14,29 +14,26 @@ async function main() {
   // Enter your storage account name and SAS
   const account = process.env.ACCOUNT_NAME || "";
   const accountSas = process.env.ACCOUNT_SAS || "";
-
-  // Use AnonymousCredential when url already includes a SAS signature
-  const anonymousCredential = new AnonymousCredential();
-
+  const credential = new AzureCliCredential();
   const queueServiceClient = new QueueServiceClient(
-    // When using AnonymousCredential, following url should include a valid SAS or support public access
-    `https://${account}.queue.core.windows.net${accountSas}`,
-    anonymousCredential
+    `https://${account}.queue.core.windows.net`,
+    credential
   );
-
-  // Create a new queue
-  const queueName = `newqueue${new Date().getTime()}`;
+  const queueName = `newqueue1720426587084`;
   const queueClient = queueServiceClient.getQueueClient(queueName);
-  const createQueueResponse = await queueClient.create();
-  console.log(
-    `Created queue ${queueClient.name} successfully, service assigned request ID: ${createQueueResponse.requestId}`
-  );
+   const response = await queueClient.receiveMessages();
+  if (response.receivedMessageItems.length == 1) {
+    const receivedMessageItem = response.receivedMessageItems[0];
+    console.log(`Processing & deleting message with content: ${receivedMessageItem.messageText}`);
+    const deleteMessageResponse = await queueClient.deleteMessage(
+      receivedMessageItem.messageId,
+      receivedMessageItem.popReceipt
+    );
+    console.log(
+      `Delete message successfully, service assigned request Id: ${deleteMessageResponse.requestId}`
+    );
+  }
 
-  // Delete the queue.
-  const deleteQueueResponse = await queueClient.delete();
-  console.log(
-    `Deleted queue ${queueClient.name} successfully, service assigned request ID: ${deleteQueueResponse.requestId}`
-  );
 }
 
 main().catch((error) => {

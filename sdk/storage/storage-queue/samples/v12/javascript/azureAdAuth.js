@@ -34,7 +34,7 @@
  */
 
 const { QueueServiceClient } = require("@azure/storage-queue");
-const { DefaultAzureCredential } = require("@azure/identity");
+const { DefaultAzureCredential, AzureCliCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -67,7 +67,7 @@ async function main() {
   // If those environment variables aren't found and your application is deployed
   // to an Azure VM or App Service instance, the managed service identity endpoint
   // will be used as a fallback authentication source.
-  const defaultAzureCredential = new DefaultAzureCredential();
+  const defaultAzureCredential = new AzureCliCredential();
 
   const queueServiceClient = new QueueServiceClient(
     `https://${account}.queue.core.windows.net`,

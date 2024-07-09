@@ -38,5 +38,6 @@
     "**/*.d.ts": true,
     "**/test-browser/*": true
   },
-  "typescript.tsdk": "./sdk/core/core-rest-pipeline/node_modules/typescript/lib"
+  "typescript.tsdk": "./sdk/core/core-rest-pipeline/node_modules/typescript/lib",
+  "C_Cpp.errorSquiggles": "disabled"
 }
