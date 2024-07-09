@@ -113,7 +113,7 @@ async function run() {
   const response = await v2Container.items.bulk(operations);
   logStep("Bulk response:");
   console.log(response);
-  await finish();
+  // await finish();
 }
 
 run().catch(handleError);

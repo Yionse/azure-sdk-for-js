@@ -38,10 +38,9 @@ async function run() {
   // We're using exclude this time to manually exclude this item from being indexed
   console.log("Create item, but exclude from index");
   const { resource: itemDef, item } = await container.items.create(
-    { id: "item1", foo: "bar" },
+    { id: "item122asd21ts", foo: "bar1111122222" },
     { indexingDirective: "exclude" }
   );
-
   if (itemDef) {
     console.log(`Item with id  ${itemDef.id} 'created`);
   }
@@ -234,7 +233,7 @@ async function run() {
   // You can still read the item by its id
   console.log("Can still item.read() using '" + item4 && item4.id + "'");
   await item.read();
-  await finish();
+  // await finish();
 }
 
 run().catch(handleError);

@@ -29,8 +29,11 @@ async function run() {
 
   logStep("Insert items in to database '" + databaseId + "' and container '" + containerId + "'");
 
+    console.log("success success success success!!!!!!!!!!!!!!");
+
   await Promise.all(Families.map((itemDef) => container.items.create(itemDef)));
   console.log(Families.length + " items created");
+  console.log("error error error error!!!!!!!!!!!!!!");
 
   logStep("List items in container '" + container.id + "'");
   const { resources: itemDefList } = await container.items.readAll().fetchAll();
