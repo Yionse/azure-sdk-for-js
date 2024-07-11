@@ -6,14 +6,14 @@
  */
 
 const { ContainerRegistryClient } = require("@azure/container-registry");
-const { DefaultAzureCredential } = require("@azure/identity");
+const { DefaultAzureCredential, AzureCliCredential } = require("@azure/identity");
 require("dotenv").config();
 
 async function main() {
   // endpoint should be in the form of "https://myregistryname.azurecr.io"
   // where "myregistryname" is the actual name of your registry
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
-  const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
+  const client = new ContainerRegistryClient(endpoint, new AzureCliCredential());
   await listRepositoryNames(client);
 
   // Advanced: listing by pages

@@ -6,7 +6,7 @@
  */
 
 const { ContainerRegistryContentClient } = require("@azure/container-registry");
-const { DefaultAzureCredential } = require("@azure/identity");
+const { DefaultAzureCredential, AzureCliCredential } = require("@azure/identity");
 require("dotenv").config();
 
 async function main() {
@@ -17,13 +17,13 @@ async function main() {
   const client = new ContainerRegistryContentClient(
     endpoint,
     repository,
-    new DefaultAzureCredential()
+    new AzureCliCredential()
   );
 
   const manifestListType = "application/vnd.docker.distribution.manifest.list.v2+json";
   const ociIndexType = "application/vnd.oci.image.index.v1+json";
 
-  const result = await client.getManifest("latest");
+  const result = await client.getManifest("v1");
 
   if (result.mediaType === manifestListType) {
     console.log("Manifest is a Docker manifest list");

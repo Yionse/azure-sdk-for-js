@@ -9,14 +9,14 @@
 // in a registry and delete all but the most recent n images, or all images
 // older than a certain date.
 const { ContainerRegistryClient } = require("@azure/container-registry");
-const { DefaultAzureCredential } = require("@azure/identity");
+const { DefaultAzureCredential, AzureCliCredential } = require("@azure/identity");
 require("dotenv").config();
 
 async function main() {
   // Get the service endpoint from the environment
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
   // Create a new ContainerRegistryClient
-  const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
+  const client = new ContainerRegistryClient(endpoint, new AzureCliCredential());
 
   // Iterate through repositories
   const repositoryNames = client.listRepositoryNames();

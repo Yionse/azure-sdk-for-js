@@ -9,7 +9,7 @@ const {
   ContainerRegistryContentClient,
   KnownManifestMediaType,
 } = require("@azure/container-registry");
-const { DefaultAzureCredential } = require("@azure/identity");
+const { DefaultAzureCredential, AzureCliCredential } = require("@azure/identity");
 require("dotenv").config();
 
 async function main() {
@@ -20,11 +20,10 @@ async function main() {
   const client = new ContainerRegistryContentClient(
     endpoint,
     repository,
-    new DefaultAzureCredential()
+    new AzureCliCredential()
   );
 
-  const downloadResult = await client.getManifest("latest");
-
+  const downloadResult = await client.getManifest("v1");
   if (downloadResult.mediaType !== KnownManifestMediaType.OciImageManifest) {
     throw new Error("Expected an OCI image manifest");
   }
