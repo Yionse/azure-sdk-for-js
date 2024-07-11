@@ -19,8 +19,8 @@ dotenv.config();
 const cluEndpoint =
   process.env.AZURE_CONVERSATIONS_ENDPOINT || "https://dummyendpoint.cognitiveservices.azure.com";
 const cluKey = process.env.AZURE_CONVERSATIONS_KEY || "<api-key>";
-const projectName = process.env.AZURE_CONVERSATIONS_PROJECT_NAME || "<project-name>";
-const deploymentName = process.env.AZURE_CONVERSATIONS_DEPLOYMENT_NAME || "<deployment-name>";
+const projectName = process.env.AZURE_CONVERSATIONS_WORKFLOW_PROJECT_NAME || "<project-name>";
+const deploymentName = process.env.AZURE_CONVERSATIONS_WORKFLOW_DEPLOYMENT_NAME || "<deployment-name>";
 
 const service: ConversationAnalysisClient = new ConversationAnalysisClient(
   cluEndpoint,

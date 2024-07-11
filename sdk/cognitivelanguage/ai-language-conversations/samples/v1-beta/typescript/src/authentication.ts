@@ -14,8 +14,8 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // You will need to set these environment variables or edit the following values
-const projectName = process.env.AZURE_CONVERSATIONS_PROJECT_NAME || "<project-name>";
-const deploymentName = process.env.AZURE_CONVERSATIONS_DEPLOYMENT_NAME || "<deployment-name>";
+const projectName = process.env.AZURE_CONVERSATIONS_WORKFLOW_PROJECT_NAME || "<project-name>";
+const deploymentName = process.env.AZURE_CONVERSATIONS_WORKFLOW_DEPLOYMENT_NAME || "<deployment-name>";
 
 const body: ConversationalTask = {
   kind: "Conversation",
