@@ -2,15 +2,22 @@
 // Licensed under the MIT license.
 
 /**
+ * Test Must:
+ * 1、Key must set type of `Both`
+ * 2、Create an OpenAI resource before use, and then create a new deployment
+ */
+
+/**
  * @summary Demonstrates the SearchIndexingBufferedSender with Autoflush based on size.
  */
 
-const { DefaultAzureCredential } = require("@azure/identity");
+const { DefaultAzureCredential, AzureCliCredential } = require("@azure/identity");
 const {
   GeographyPoint,
   SearchClient,
   SearchIndexClient,
   SearchIndexingBufferedSender,
+  AzureKeyCredential,
 } = require("@azure/search-documents");
 const { createIndex, delay, documentKeyRetriever, WAIT_TIME } = require("./setup");
 
@@ -24,7 +31,7 @@ require("dotenv").config();
  * by default.
  */
 const endpoint = process.env.ENDPOINT || "";
-const TEST_INDEX_NAME = "example-index-sample-4";
+const TEST_INDEX_NAME = "example-index-sample-4111";
 
 function getDocumentsArray(size) {
   const array = [];
@@ -63,7 +70,8 @@ async function main() {
 
   console.log(`Running SearchIndexingBufferedSender-uploadDocuments-With Auto Flush Sizes Sample`);
 
-  const credential = new DefaultAzureCredential();
+  // const credential = new DefaultAzureCredential();
+  const credential = new AzureKeyCredential(process.env.KEY);
   const searchClient = new SearchClient(endpoint, TEST_INDEX_NAME, credential);
   const indexClient = new SearchIndexClient(endpoint, credential);
 
@@ -108,7 +116,10 @@ async function main() {
     // has to call the dispose method to clear the
     // timer.
     bufferedClient.dispose();
-  } finally {
+  } catch (err) { 
+    console.log(err);
+  }
+  finally {
     await indexClient.deleteIndex(TEST_INDEX_NAME);
   }
 }

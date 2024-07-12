@@ -12,6 +12,7 @@ const {
   SearchClient,
   SearchIndexClient,
   SearchIndexingBufferedSender,
+  AzureKeyCredential,
 } = require("@azure/search-documents");
 const { createIndex, delay, documentKeyRetriever, WAIT_TIME } = require("./setup");
 
@@ -27,6 +28,7 @@ require("dotenv").config();
 const endpoint = process.env.ENDPOINT || "";
 const TEST_INDEX_NAME = "example-index-sample-5";
 
+// Fail
 async function main() {
   if (!endpoint) {
     console.log("Be sure to set a valid endpoint with proper authorization.");
@@ -35,7 +37,7 @@ async function main() {
 
   console.log(`Running SearchIndexingBufferedSender-uploadDocuments-With Auto Flush Timer Sample`);
 
-  const credential = new DefaultAzureCredential();
+  const credential = new AzureKeyCredential(process.env.KEY);
   const searchClient = new SearchClient(endpoint, TEST_INDEX_NAME, credential);
   const indexClient = new SearchIndexClient(endpoint, credential);
 

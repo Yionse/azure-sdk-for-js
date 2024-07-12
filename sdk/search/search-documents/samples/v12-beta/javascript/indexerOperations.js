@@ -91,6 +91,7 @@ async function runIndexer(indexerName, client) {
   await client.runIndexer(indexerName);
 }
 
+// Fail
 async function main() {
   console.log(`Running Indexer Operations Sample....`);
   if (!endpoint || !dataSourceName || !targetIndexName) {

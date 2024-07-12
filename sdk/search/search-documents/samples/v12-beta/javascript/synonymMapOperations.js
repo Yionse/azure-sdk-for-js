@@ -5,8 +5,8 @@
  * @summary Demonstrates the SynonymMap Operations.
  */
 
-const { DefaultAzureCredential } = require("@azure/identity");
-const { SearchIndexClient } = require("@azure/search-documents");
+const { DefaultAzureCredential, AzureCliCredential } = require("@azure/identity");
+const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
 
 require("dotenv").config();
 
@@ -56,7 +56,7 @@ async function main() {
     console.log("Be sure to set a valid endpoint with proper authorization.");
     return;
   }
-  const client = new SearchIndexClient(endpoint, new DefaultAzureCredential());
+  const client = new SearchIndexClient(endpoint, new AzureKeyCredential(process.env.KEY));
   try {
     await createSynonymMap(TEST_SYNONYM_MAP_NAME, client);
     await getAndUpdateSynonymMap(TEST_SYNONYM_MAP_NAME, client);

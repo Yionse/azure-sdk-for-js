@@ -5,8 +5,8 @@
  * @summary Demonstrates vector search
  */
 
-const { DefaultAzureCredential } = require("@azure/identity");
-const { GeographyPoint, SearchClient, SearchIndexClient } = require("@azure/search-documents");
+const { DefaultAzureCredential, AzureCliCredential } = require("@azure/identity");
+const { GeographyPoint, SearchClient, SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
 const { createIndex, delay, WAIT_TIME } = require("./setup");
 
 const dotenv = require("dotenv");
@@ -19,13 +19,14 @@ dotenv.config();
 const endpoint = process.env.ENDPOINT || "";
 const TEST_INDEX_NAME = "example-index-sample-7";
 
+// Fail
 async function main() {
   if (!endpoint) {
     console.log("Be sure to set a valid endpoint with proper authorization.");
     return;
   }
 
-  const credential = new DefaultAzureCredential();
+  const credential = new AzureKeyCredential(process.env.KEY);
 
   const searchClient = new SearchClient(endpoint, TEST_INDEX_NAME, credential);
 

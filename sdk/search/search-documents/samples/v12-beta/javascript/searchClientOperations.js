@@ -5,8 +5,8 @@
  * @summary Demonstrates the SearchClient.
  */
 
-const { DefaultAzureCredential } = require("@azure/identity");
-const { GeographyPoint, SearchClient, SearchIndexClient } = require("@azure/search-documents");
+const { DefaultAzureCredential, AzureCliCredential } = require("@azure/identity");
+const { GeographyPoint, SearchClient, SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
 const { createIndex, delay, WAIT_TIME } = require("./setup");
 
 require("dotenv").config();
@@ -23,7 +23,7 @@ async function main() {
     return;
   }
 
-  const credential = new DefaultAzureCredential();
+  const credential = new AzureKeyCredential(process.env.KEY);
 
   // The client can optionally be instantiated with a model type for a more rich typing experience.
   // For the best experience, ensure that every property of the model type can be assigned `null`

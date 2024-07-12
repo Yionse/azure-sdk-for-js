@@ -5,7 +5,7 @@
  * @summary Demonstrates the Skillset Operations.
  */
 
-const { DefaultAzureCredential } = require("@azure/identity");
+const { DefaultAzureCredential,AzureCliCredential } = require("@azure/identity");
 const { SearchIndexerClient } = require("@azure/search-documents");
 
 require("dotenv").config();
@@ -108,7 +108,7 @@ async function main() {
     console.log("Be sure to set a valid endpoint with proper authorization.");
     return;
   }
-  const client = new SearchIndexerClient(endpoint, new DefaultAzureCredential());
+  const client = new SearchIndexerClient(endpoint, new AzureCliCredential());
   try {
     await createSkillset(TEST_SKILLSET_NAME, client);
     await getAndUpdateSkillset(TEST_SKILLSET_NAME, client);
