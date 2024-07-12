@@ -24,7 +24,7 @@ async function main() {
   const manifestListType = "application/vnd.docker.distribution.manifest.list.v2+json";
   const ociIndexType = "application/vnd.oci.image.index.v1+json";
 
-  const result = await client.getManifest("latest");
+  const result = await client.getManifest("v1");
 
   if (result.mediaType === manifestListType) {
     console.log("Manifest is a Docker manifest list");

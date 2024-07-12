@@ -25,7 +25,7 @@ async function main() {
     new DefaultAzureCredential()
   );
 
-  const downloadResult = await client.getManifest("latest");
+  const downloadResult = await client.getManifest("demo");
 
   if (downloadResult.mediaType !== KnownManifestMediaType.OciImageManifest) {
     throw new Error("Expected an OCI image manifest");

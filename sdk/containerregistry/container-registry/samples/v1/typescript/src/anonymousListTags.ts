@@ -10,18 +10,21 @@
 // the registry anonymously. Anonymous access allows a user to list all the collections there, but
 // they wouldn't have permissions to modify or delete any of the images in the registry.
 import { ContainerRegistryClient } from "@azure/container-registry";
+import { AzureCliCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();
 
 async function main() {
   // Get the service endpoint from the environment
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
-
+  const credential = new AzureCliCredential();
+  console.log(endpoint,' 123');
+  
   // Create a new ContainerRegistryClient for anonymous access
-  const client = new ContainerRegistryClient(endpoint);
+  const client = new ContainerRegistryClient(endpoint, credential);
 
   // Obtain a RegistryArtifact object to get access to image operations
-  const image = client.getArtifact("library/hello-world", "latest");
+  const image = client.getArtifact("hello-world", "demo");
 
   // List the set of tags on the hello_world image tagged as "latest"
   const tagIterator = image.listTagProperties();

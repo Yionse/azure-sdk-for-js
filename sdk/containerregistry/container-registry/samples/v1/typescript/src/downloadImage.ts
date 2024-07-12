@@ -17,7 +17,7 @@ dotenv.config();
 
 function trimSha(digest: string) {
   const index = digest.indexOf(":");
-  return index === -1 ? digest : digest.substring(index);
+  return index === -1 ? digest : digest.substring(index + 1);
 }
 
 async function main() {

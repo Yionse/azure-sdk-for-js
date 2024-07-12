@@ -8,7 +8,7 @@
 // This sample assumes the registry has a repository `hello-world` with image tagged `v1`.
 
 import { ContainerRegistryClient } from "@azure/container-registry";
-import { DefaultAzureCredential } from "@azure/identity";
+import { AzureCliCredential, DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -16,11 +16,11 @@ async function main() {
   // Get the service endpoint from the environment
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
   // Create a new ContainerRegistryClient
-  const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
-  const image = client.getArtifact("library/hello-world", "v1");
+  const client = new ContainerRegistryClient(endpoint, new AzureCliCredential());
+  const image = client.getArtifact("hello-world", "demo");
 
   // Set permissions on the image's "latest" tag
-  await image.updateTagProperties("latest", {
+  await image.updateTagProperties("demo", {
     canWrite: false,
     canDelete: false,
   });
