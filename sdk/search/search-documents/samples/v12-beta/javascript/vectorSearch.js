@@ -17,7 +17,7 @@ dotenv.config();
  * This sample is to demonstrate the use of SearchClient's vector search feature.
  */
 const endpoint = process.env.ENDPOINT || "";
-const TEST_INDEX_NAME = "example-index-sample-7";
+const TEST_INDEX_NAME = "example-index-sample-71231";
 
 // Fail
 async function main() {
@@ -27,10 +27,10 @@ async function main() {
   }
 
   const credential = new AzureKeyCredential(process.env.KEY);
-
+  console.log(process.env.KEY);
   const searchClient = new SearchClient(endpoint, TEST_INDEX_NAME, credential);
 
-  const indexClient = new SearchIndexClient(endpoint, credential);
+  const indexClient = new SearchIndexClient(endpoint, new DefaultAzureCredential());
   try {
     await createIndex(indexClient, TEST_INDEX_NAME);
     await delay(WAIT_TIME);

@@ -25,7 +25,6 @@ require("dotenv").config();
 const endpoint = process.env.ENDPOINT || "";
 const TEST_INDEX_NAME = "example-index-sample-6";
 
-// Fail
 async function main() {
   if (!endpoint) {
     console.log("Be sure to set a valid endpoint with proper authorization.");
