@@ -5,6 +5,10 @@
  * @summary Demonstrates the use of getSchemaByVersion.
  */
 
+/**
+ * @datasource: Event Hubs
+ */
+
 const { DefaultAzureCredential } = require("@azure/identity");
 const { SchemaRegistryClient, KnownSchemaFormats } = require("@azure/schema-registry");
 
@@ -44,6 +48,7 @@ const schemaDescription = {
 };
 
 async function main() {
+  console.log(fullyQualifiedNamespace, groupName);
   // Create a new client
   const client = new SchemaRegistryClient(fullyQualifiedNamespace, new DefaultAzureCredential());
 
