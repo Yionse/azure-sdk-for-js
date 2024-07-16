@@ -53,7 +53,8 @@ const schemaDescription = {
   definition: schema,
 };
 
-async function handleError() {
+async function handleError(e) {
+  console.log(e);
   console.log("An error occured when sending a message");
 }
 
@@ -63,7 +64,6 @@ async function main() {
     schemaRegistryFullyQualifiedNamespace,
     new DefaultAzureCredential()
   );
-
   // Register the schema. This would generally have been done somewhere else.
   // You can also skip this step and let `serialize` automatically register
   // schemas using autoRegisterSchemas=true, but that is NOT recommended in production.

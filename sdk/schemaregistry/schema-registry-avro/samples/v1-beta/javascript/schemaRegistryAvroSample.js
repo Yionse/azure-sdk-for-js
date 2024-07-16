@@ -3,6 +3,7 @@
 
 /**
  * @summary Demonstrates the use of AvroSerializer to create messages with avro-serialized payload using schema from Schema Registry.
+ * datasourceName: Event Hubs
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
