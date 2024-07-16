@@ -14,6 +14,8 @@
  * in Service Bus
  */
 
+// Fail
+
 const { delay, ServiceBusClient } = require("@azure/service-bus");
 
 // Load the .env file if it exists
@@ -38,6 +40,7 @@ const listOfScientists = [
 ];
 
 async function main() {
+  console.log(connectionString);
   const sbClient = new ServiceBusClient(connectionString);
 
   try {

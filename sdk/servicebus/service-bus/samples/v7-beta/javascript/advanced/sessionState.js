@@ -20,7 +20,6 @@
  *
  * @summary Demonstrates usage of SessionState.
  */
-
 const { ServiceBusClient } = require("@azure/service-bus");
 
 // Load the .env file if it exists

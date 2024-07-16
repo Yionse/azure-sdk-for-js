@@ -9,9 +9,12 @@
  * Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
  *
  * @summary Demonstrates how to browse a Service Bus message
+ * datasourceName: Service Bus
+ * description: 需要启用enable属性，否则sessions.js无法通过
  */
 
 const { ServiceBusClient } = require("@azure/service-bus");
+const {AzureCliCredential, DefaultAzureCredential} = require("@azure/identity");
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -20,29 +23,26 @@ require("dotenv").config();
 const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
+const fullyQualifiedNamespace = "servicebustc.servicebus.windows.net";
+const credential = new DefaultAzureCredential();
+const serviceBusClient = new ServiceBusClient(process.env.SERVICEBUS_CONNECTION_STRING);
+
 async function main() {
-  const sbClient = new ServiceBusClient(connectionString);
+  const sender = serviceBusClient.createSender(queueName);
+  const receiver = serviceBusClient.createReceiver(queueName);
+  const myMessages = await receiver.receiveMessages(10);
+  const deadLetterReceiverForQueue = serviceBusClient.createReceiver(queueName, {
+    subQueueType: "deadLetter"
+  });
 
-  // If receiving from a subscription you can use the createReceiver(topicName, subscriptionName) overload
-  const queueReceiver = sbClient.createReceiver(queueName);
 
-  try {
-    // peeking messages does not lock or remove messages from a queue or subscription.
-    // For locking and/or removal, look at the `receiveMessagesLoop` or `receiveMessagesStreaming` samples,
-    // which cover using a receiver with a `receiveMode`.
-    console.log(`Attempting to peek 10 messages at a time`);
-    const peekedMessages = await queueReceiver.peekMessages(10);
+// Dead letter receivers work like any other receiver connected to a queue
+// ex:
+const messages = await deadLetterReceiverForQueue.receiveMessages(5);
 
-    console.log(`Got ${peekedMessages.length} messages.`);
-
-    for (let i = 0; i < peekedMessages.length; ++i) {
-      console.log(`Peeked message #${i}: ${peekedMessages[i].body}`);
-    }
-
-    await queueReceiver.close();
-  } finally {
-    await sbClient.close();
-  }
+for (const message of messages) {
+  console.log(`Dead lettered message: ${message.body}`);
+}
 }
 
 main().catch((err) => {

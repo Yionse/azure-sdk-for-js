@@ -8,6 +8,7 @@
  *
  * @summary Demonstrates how to manage the resources of a service bus namespace.
  */
+// Fail
 
 const { ServiceBusAdministrationClient } = require("@azure/service-bus");
 
@@ -19,6 +20,8 @@ const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connectio
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 async function main() {
+  // const queueName = "myqueue" + +new Date();
+  
   // You can also use AAD credentials from `@azure/identity` along with the host url
   // instead of the connection string for authentication.
   const serviceBusAdministrationClient = new ServiceBusAdministrationClient(connectionString);

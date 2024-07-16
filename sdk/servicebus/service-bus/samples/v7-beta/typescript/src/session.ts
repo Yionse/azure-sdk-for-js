@@ -14,6 +14,8 @@
  * in Service Bus
  */
 
+// Fail
+
 import { delay, ProcessErrorArgs, ServiceBusClient, ServiceBusMessage } from "@azure/service-bus";
 
 // Load the .env file if it exists

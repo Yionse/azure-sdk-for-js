@@ -21,7 +21,7 @@
  */
 
 const { ServiceBusClient } = require("@azure/service-bus");
-const { DefaultAzureCredential } = require("@azure/identity");
+const { DefaultAzureCredential, AzureCliCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -37,18 +37,8 @@ const clientSecret = process.env.AZURE_CLIENT_SECRET || "<azure client secret>";
 const clientId = process.env.AZURE_CLIENT_ID || "<azure client id>";
 
 async function main() {
-  if (
-    tenantId === "<azure tenant id>" ||
-    clientSecret === "<azure client secret>" ||
-    clientId === "<azure client id>"
-  ) {
-    console.log(
-      `Required environment variables are missing. Please ensure AZURE_TENANT_ID, AZURE_CLIENT_SECRET and AZURE_CLIENT_ID have been set.`,
-    );
-    process.exit(1);
-  }
 
-  const tokenCreds = new DefaultAzureCredential();
+  const tokenCreds = new AzureCliCredential();
 
   const sbClient = new ServiceBusClient(serviceBusEndpoint, tokenCreds);
 
