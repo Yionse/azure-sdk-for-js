@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/schemaregistry/schema-registry-avro",
   "dependencies": {
-    "@azure/schema-registry-avro": "next",
+    "@azure/schema-registry-avro": "dev",
     "dotenv": "latest",
     "@azure/identity": "^4.2.1",
     "@azure/schema-registry": "^1.0.1",
