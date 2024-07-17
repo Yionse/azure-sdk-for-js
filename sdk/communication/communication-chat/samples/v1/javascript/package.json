@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-chat",
   "dependencies": {
-    "@azure/communication-chat": "latest",
+    "@azure/communication-chat": "dev",
     "dotenv": "latest",
     "@azure/communication-common": "^2.1.0",
     "@azure/communication-identity": "^1.0.0"

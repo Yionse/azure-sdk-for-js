@@ -3,6 +3,8 @@
 
 /**
  * @summary Perform message thread operations using the ChatThreadClient.
+ * 
+ * @datasource Communication Service
  */
 
 const { ChatClient } = require("@azure/communication-chat");
@@ -25,37 +27,27 @@ async function main() {
   const identityClient = new CommunicationIdentityClient(connectionString);
   const user = await identityClient.createUser();
   const userToken = await identityClient.getToken(user, ["chat"]);
-
-  // create ChatClient
+  const userSue = await identityClient.createUserAndToken(["chat"]);
   const chatClient = new ChatClient(
     endpoint,
     new AzureCommunicationTokenCredential(userToken.token)
   );
-  const createChatThreadResult = await chatClient.createChatThread({ topic: "Hello, World!" });
-  const threadId = createChatThreadResult.chatThread ? createChatThreadResult.chatThread.id : "";
-  const chatThreadClient = chatClient.getChatThreadClient(threadId);
-
-  // send a message
-  const sendMessageResult = await chatThreadClient.sendMessage({ content: "Hello world." });
-  console.log(`Sent message with id ${sendMessageResult.id}`);
-
-  // get a message by id
-  const message = await chatThreadClient.getMessage(sendMessageResult.id);
-  console.log(`Retrieved message.`, message);
-
-  // list all messages with newest first
-  let i = 0;
-  for await (const message of chatThreadClient.listMessages()) {
-    console.log(`Message ${++i}:`, message);
-  }
-
-  // update a message
-  await chatThreadClient.updateMessage(message.id, { content: "New content" });
-  console.log(`Updated message.`);
-
-  // delete a message
-  await chatThreadClient.deleteMessage(sendMessageResult.id);
-  console.log("Deleted message.");
+  const createChatThreadRequest = {
+  topic: "Hello, World!"
+};
+const createChatThreadOptions = {
+  participants: [
+    {
+      id: { communicationUserId: 'aaa12' },
+      displayName: '12312asda'
+    }
+  ]
+};
+const createChatThreadResult = await chatClient.createChatThread(
+  createChatThreadRequest,
+  createChatThreadOptions
+);
+const threadId = createChatThreadResult.chatThread.id;
 }
 
 main().catch((error) => {
