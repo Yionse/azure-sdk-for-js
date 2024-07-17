@@ -8,85 +8,66 @@
  * Checkpointing using a durable store allows your application to be more resilient. When you restart
  * your application after a crash (or an intentional stop), your application can continue consuming
  * events from where it last checkpointed.
+ * 
+ * @description: 需要创建两个资源，分别是storage account和event hubs。且需要在storage account中创建一个container。此外需要更换验证方式，使用sas进行，使用原有的好像会报错。
  */
 
-const { DefaultAzureCredential } = require("@azure/identity");
+const { DefaultAzureCredential, AzureCliCredential } = require("@azure/identity");
 const { EventHubConsumerClient } = require("@azure/event-hubs");
 const { BlobCheckpointStore } = require("@azure/eventhubs-checkpointstore-blob");
-const { ContainerClient } = require("@azure/storage-blob");
+const { ContainerClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
 require("dotenv/config");
 
-const fullyQualifiedNamespace = process.env["EVENTHUB_FQDN"] || "<fully qualified namespace>";
-const eventHubName = process.env["EVENTHUB_NAME"] || "<eventHubName>";
-const consumerGroup =
-  process.env["EVENTHUB_CONSUMER_GROUP"] || EventHubConsumerClient.defaultConsumerGroupName;
-const storageContainerUrl =
-  process.env["STORAGE_CONTAINER_URL"] ||
-  "https://<storageaccount>.blob.core.windows.net/<containername>";
+const storageAccountConnectionString = "Access keys";
+const containerName = "container-name";
+const eventHubConnectionString = "EventHubsList->Shared access policies";
+const consumerGroup = "Consumer groups";
+const eventHubName = "name";
 
 async function main() {
-  const credential = new DefaultAzureCredential();
-  // This client will be used by our eventhubs-checkpointstore-blob, which
-  // persists any checkpoints from this session in Azure Storage
-  const containerClient = new ContainerClient(storageContainerUrl, credential);
+  const blobContainerClient = new ContainerClient(storageAccountConnectionString, containerName);
 
-  if (!(await containerClient.exists())) {
-    await containerClient.create();
+  if (!(await blobContainerClient.exists())) {
+    await blobContainerClient.create();
   }
 
-  const checkpointStore = new BlobCheckpointStore(containerClient);
-
+  const checkpointStore = new BlobCheckpointStore(blobContainerClient);
   const consumerClient = new EventHubConsumerClient(
     consumerGroup,
-    fullyQualifiedNamespace,
+    eventHubConnectionString,
     eventHubName,
-    credential,
-    checkpointStore,
+    checkpointStore
   );
-
-  // The below code will set up your program to listen to events from your Event Hub instance.
-  // If your Event Hub instance doesn't have any events, then please run "sendEvents.ts" from the event-hubs project
-  // located here: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/sendEvents.ts
 
   const subscription = consumerClient.subscribe({
     processEvents: async (events, context) => {
+      // event processing code goes here
       if (events.length === 0) {
         // If the wait time expires (configured via options in maxWaitTimeInSeconds) Event Hubs
         // will pass you an empty array.
         return;
       }
 
-      for (const event of events) {
-        console.log(
-          `Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroup}'`,
-        );
-      }
-
-      try {
-        // save a checkpoint for the last event now that we've processed this batch.
-        await context.updateCheckpoint(events[events.length - 1]);
-      } catch (err) {
-        console.log(`Error when checkpointing on partition ${context.partitionId}: `, err);
-        throw err;
-      }
-
-      console.log(
-        `Successfully checkpointed event with sequence number: ${events[events.length - 1].sequenceNumber} from partition: 'partitionContext.partitionId'`,
-      );
+      // Checkpointing will allow your service to pick up from
+      // where it left off when restarting.
+      //
+      // You'll want to balance how often you checkpoint with the
+      // performance of your underlying checkpoint store.
+      await context.updateCheckpoint(events[events.length - 1]);
     },
     processError: async (err, context) => {
-      console.log(`Error on partition "${context.partitionId}": ${err}`);
-    },
+      // handle any errors that occur during the course of
+      // this subscription
+      console.log(`Errors in subscription to partition ${context.partitionId}: ${err}`);
+    }
   });
 
-  // after 30 seconds, stop processing
-  await new Promise((resolve) => {
-    setTimeout(async () => {
-      await subscription.close();
-      await consumerClient.close();
-      resolve();
-    }, 30000);
-  });
+  // Wait for a few seconds to receive events before closing
+  await new Promise((resolve) => setTimeout(resolve, 10 * 1000));
+
+  await subscription.close();
+  await consumerClient.close();
+  console.log(`Exiting sample`);
 }
 
 main().catch((err) => {

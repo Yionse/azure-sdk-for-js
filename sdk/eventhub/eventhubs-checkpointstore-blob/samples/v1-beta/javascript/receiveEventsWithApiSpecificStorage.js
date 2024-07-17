@@ -12,7 +12,7 @@
  * events from where it last checkpointed.
  */
 
-const { DefaultAzureCredential } = require("@azure/identity");
+const { DefaultAzureCredential, AzureCliCredential } = require("@azure/identity");
 const { EventHubConsumerClient } = require("@azure/event-hubs");
 const { BlobCheckpointStore } = require("@azure/eventhubs-checkpointstore-blob");
 const { ContainerClient } = require("@azure/storage-blob");
@@ -29,7 +29,7 @@ const storageContainerUrl =
   "https://<storageaccount>.blob.core.windows.net/<containername>";
 
 async function main() {
-  const credential = new DefaultAzureCredential();
+  const credential = new AzureCliCredential();
   // The `containerClient` will be used by our eventhubs-checkpointstore-blob, which
   // persists any checkpoints from this session in Azure Storage.
   const storageContainerPipeline = createCustomPipeline(credential);

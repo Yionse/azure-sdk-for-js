@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/eventhubs-checkpointstore-blob",
   "dependencies": {
-    "@azure/eventhubs-checkpointstore-blob": "next",
+    "@azure/eventhubs-checkpointstore-blob": "dev",
     "dotenv": "latest",
     "@azure/storage-blob": "^12.9.0",
     "@azure/identity": "^4.3.0",
@@ -36,7 +36,6 @@
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
-    "typescript": "~5.5.3",
-    "rimraf": "latest"
+    "typescript": "~5.5.3"
   }
 }
