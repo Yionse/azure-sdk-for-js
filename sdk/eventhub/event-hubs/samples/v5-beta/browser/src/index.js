@@ -12,6 +12,8 @@ const sendElement = document.getElementById("send");
 const receiveElement = document.getElementById("receive");
 
 sendElement.addEventListener("click", () => {
+  
+  console.log(123123);
   send();
 });
 

@@ -27,7 +27,7 @@ async function send() {
     clientId: appClientId
   });
 
-  const producer = new EventHubProducerClient(fullyQualifiedNamespace, eventHubName, credential);
+  const producer = new EventHubProducerClient("Endpoint=sb://eventbustc.servicebus.windows.net/;SharedAccessKeyName=tsss;SharedAccessKey=b02P+RfE0vxeRAGDtUu/Nf7ybArx7wIQv+AEhG0JRhE=;EntityPath=hubhubtc", credential);
 
   const eventsToSend = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
   try {
