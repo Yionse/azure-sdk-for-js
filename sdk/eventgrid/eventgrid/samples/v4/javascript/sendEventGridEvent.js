@@ -38,6 +38,29 @@ async function main() {
       }
     }
   ]);
+
+  await client.send([
+  {
+    eventType: "Azure.Sdk.SampleEvent",
+    subject: "Event Subject",
+    dataVersion: "1.0",
+    data: {
+      hello: "world",
+    },
+  },
+  ]);
+  
+//   await client.send([
+//   {
+//     topic: "eventgrid",
+//     eventType: "Azure.Sdk.SampleEvent",
+//     subject: "Event Subject",
+//     dataVersion: "1.0",
+//     data: {
+//       hello: "world",
+//     },
+//   },
+// ]);
 }
 
 main().catch((err) => {

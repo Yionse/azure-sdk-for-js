@@ -3,6 +3,7 @@
 
 /**
  * @summary Consume events delivered by Event Grid to a Service Bus Queue
+ * @description 资源名称为：Event Grid Topic，此外，还需要创建相应的其它资源进行辅助。还需要创建一个Service Bus（创建完成后，需要创建两个topic）
  */
 
 const { EventGridDeserializer, isSystemEvent } = require("@azure/eventgrid");
@@ -46,6 +47,8 @@ async function processMessage(message) {
 }
 
 async function main() {
+    console.log("success success success success!!!!!!!!!!!!!!");
+
   // Start processing events.
   const closer = receiver.subscribe({
     processMessage,
@@ -53,6 +56,7 @@ async function main() {
       console.error("Error while processing events:", err);
     }
   });
+  console.log("error error error error!!!!!!!!!!!!!!");
 
   // Run for 10 seconds, allowing events to be processed.
   await new Promise((resolve) => {
