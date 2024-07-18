@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
@@ -16,6 +17,7 @@ import "dotenv/config";
 
 const fullyQualifiedNamespace = process.env["EVENTHUB_FQDN"] || "<your fully qualified namespace>";
 const eventHubName = process.env["EVENTHUB_NAME"] || "<your eventhub name>";
+const connectionString = process.env.CONNECTION_STRING || "";
 
 async function onSendEventsErrorHandler(ctx: OnSendEventsErrorContext): Promise<void> {
   console.log(`The following error occurred:`);
@@ -39,8 +41,7 @@ export async function main(): Promise<void> {
    * after 750ms or after batching 1000 events, whichever occurs first.
    */
   const client = new EventHubBufferedProducerClient(
-    fullyQualifiedNamespace,
-    eventHubName,
+    connectionString,
     credential,
     {
       /** An error handler must be provided */

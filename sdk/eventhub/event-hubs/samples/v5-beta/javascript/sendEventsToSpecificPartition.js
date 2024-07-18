@@ -13,13 +13,13 @@ require("dotenv/config");
 
 const fullyQualifiedNamespace = process.env["EVENTHUB_FQDN"] || "<your fully qualified namespace>";
 const eventHubName = process.env["EVENTHUB_NAME"] || "<your eventhub name>";
-
+const connectionString = process.env.CONNECTION_STRING;
 async function main() {
   console.log(`Running sendEvents sample`);
 
   const credential = new DefaultAzureCredential();
 
-  const producer = new EventHubProducerClient(fullyQualifiedNamespace, eventHubName, credential, {
+  const producer = new EventHubProducerClient(connectionString, credential, {
     retryOptions: {
       maxRetries: 5,
       mode: RetryMode.Exponential,

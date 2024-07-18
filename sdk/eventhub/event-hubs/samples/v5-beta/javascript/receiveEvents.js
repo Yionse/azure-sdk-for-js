@@ -3,6 +3,7 @@
 
 /**
  * @summary Demonstrates how to use the EventHubConsumerClient to process events from all partitions of a consumer group in an Event Hub.
+ * @description 使用event hub资源
  */
 
 const { EventHubConsumerClient, earliestEventPosition } = require("@azure/event-hubs");
@@ -14,6 +15,7 @@ require("dotenv/config");
 const fullyQualifiedNamespace = process.env["EVENTHUB_FQDN"] || "<your fully qualified namespace>";
 const eventHubName = process.env["EVENTHUB_NAME"] || "<your eventhub name>";
 const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "<your consumer group name>";
+const connectionStr = process.env.CONNECTION_STRING;
 
 async function main() {
   console.log(`Running receiveEvents sample`);

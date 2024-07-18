@@ -3,6 +3,7 @@
 
 /**
  * @summary Demonstrates how to use the EventHubConsumerClient to receive messages from an IoT Hub.
+ * @description 这个key在ioT hub-> Built-in endpoints中找到
  */
 
 const { EventHubConsumerClient } = require("@azure/event-hubs");

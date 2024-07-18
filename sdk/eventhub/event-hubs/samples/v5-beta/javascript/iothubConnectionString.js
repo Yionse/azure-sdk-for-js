@@ -3,6 +3,7 @@
 
 /**
  * @summary Demonstrates how to convert an IoT Hub connection string to an Event Hubs connection string that points to the built-in messaging endpoint.
+ * @description 需要新建Iot Hub资源
  */
 
 /*
@@ -31,6 +32,9 @@ function isAmqpError(err) {
 }
 
 const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "<your consumer group name>";
+const connectionString = process.env.CONNECTION_STRING;
+const keyName = process.env.KEY_NAME;
+const key = process.env.KEY;
 
 // This code is modified from https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-security#security-tokens.
 function generateSasToken(resourceUri, signingKey, policyName, expiresInMins) {
@@ -126,6 +130,7 @@ async function convertIotHubToEventHubsConnectionString(connectionString) {
 async function main() {
   console.log(`Running iothubConnectionString sample`);
 
+  // IoT Hub -> Shared access policies
   const eventHubsConnectionString = await convertIotHubToEventHubsConnectionString(
     "HostName=<your-iot-hub>.azure-devices.net;SharedAccessKeyName=<KeyName>;SharedAccessKey=<Key>",
   );

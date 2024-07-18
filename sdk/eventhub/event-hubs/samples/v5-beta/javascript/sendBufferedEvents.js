@@ -6,16 +6,18 @@
  @summary Demonstrates how to send events to an Event Hub using the `EventHubBufferedProducerClient`.
  * This sample is different from the one in `sendEvent.ts` in that the client manages batching of events and sending
  * after a given amount of time or after a given amount of events are in a batch instead of you managing the same explicitly.
+ * @description 使用EventHubBufferedProducerClient时，不要按照它的使用方法，可能会出现错误，可以通过connectionString的方式，替换掉前面的那几个值。
  */
 
 const { EventHubBufferedProducerClient } = require("@azure/event-hubs");
-const { DefaultAzureCredential } = require("@azure/identity");
+const { DefaultAzureCredential, AzureCliCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
 require("dotenv/config");
 
 const fullyQualifiedNamespace = process.env["EVENTHUB_FQDN"] || "<your fully qualified namespace>";
 const eventHubName = process.env["EVENTHUB_NAME"] || "<your eventhub name>";
+const connectionString = process.env.CONNECTION_STRING;
 
 async function onSendEventsErrorHandler(ctx) {
   console.log(`The following error occurred:`);
@@ -32,15 +34,14 @@ async function onSendEventsErrorHandler(ctx) {
 async function main() {
   console.log(`Running sendBufferedEvents sample`);
 
-  const credential = new DefaultAzureCredential();
+  const credential = new AzureCliCredential();
 
   /**
    * Create a buffered client that batches the enqueued events and sends it either
    * after 750ms or after batching 1000 events, whichever occurs first.
    */
   const client = new EventHubBufferedProducerClient(
-    fullyQualifiedNamespace,
-    eventHubName,
+    connectionString,
     credential,
     {
       /** An error handler must be provided */
@@ -61,9 +62,10 @@ async function main() {
   console.log("Enqueuing events...");
 
   for (const item of createData(2000)) {
+  console.log('到这里');
     await client.enqueueEvent({ body: item });
+console.log("发出去");
   }
-
   /**
    * Flushing ensures buffered events that were not sent yet will be sent before
    * closing the connection. Flushing can also be invoked directly using
