@@ -3,6 +3,7 @@
 
 /**
  * @summary Publish and Receive events to Event Grid.
+ * @description 正常建资源即可，注意这个资源的samples无需和其他资源交叉使用，虽然envName看上去有些重复，但实际上都是在Event Grid Namespace中创建
  */
 
 const { EventGridSenderClient } = require("@azure/eventgrid-namespaces");
