@@ -30,13 +30,12 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/eventgrid-namespaces",
   "dependencies": {
-    "@azure/eventgrid-namespaces": "next",
+    "@azure/eventgrid-namespaces": "dev",
     "dotenv": "latest",
     "@azure/core-auth": "^1.7.0"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
-    "typescript": "~5.5.3",
-    "rimraf": "latest"
+    "typescript": "~5.5.3"
   }
 }
