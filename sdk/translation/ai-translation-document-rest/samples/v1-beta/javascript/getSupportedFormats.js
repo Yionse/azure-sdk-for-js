@@ -6,8 +6,20 @@
  */
 
 const dotenv = require("dotenv");
-const createClient = require("../src/documentTranslationClient").default;
-const { isUnexpected } = require("../src/isUnexpected");
+const createClient = require("@azure-rest/ai-translation-document").default;
+const {
+  ONE_TEST_DOCUMENTS,
+  createSourceContainer,
+  createTargetContainer,
+  StartTranslationAndWait
+} = require("../../../dist-esm/test/public/utils/samplesHelper");
+const {
+  createSourceInput,
+  createTargetInput,
+  createBatchRequest,
+  getTranslationOperationID,
+} = require("../../../dist-esm/test/public/utils/testHelper");
+const { isUnexpected } = require("../../../dist-esm/src/isUnexpected");
 dotenv.config();
 
 const endpoint =
@@ -32,9 +44,7 @@ async function main() {
     console.log(fileFormatType.fileExtensions);
   });
 
-  main().catch((err) => {
-    console.error(err);
-  });
+
 }
 
 main().catch((err) => {

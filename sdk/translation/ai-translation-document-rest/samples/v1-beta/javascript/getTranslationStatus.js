@@ -6,20 +6,20 @@
  */
 
 const dotenv = require("dotenv");
-const createClient = require("../src/documentTranslationClient").default;
+const createClient = require("@azure-rest/ai-translation-document").default;
 const {
   ONE_TEST_DOCUMENTS,
-  StartTranslationAndWait,
   createSourceContainer,
   createTargetContainer,
-} = require("../test/public/utils/samplesHelper");
+  StartTranslationAndWait
+} = require("../../../dist-esm/test/public/utils/samplesHelper");
 const {
   createSourceInput,
   createTargetInput,
   createBatchRequest,
   getTranslationOperationID,
-} = require("../test/public/utils/testHelper");
-const { isUnexpected } = require("../src");
+} = require("../../../dist-esm/test/public/utils/testHelper");
+const { isUnexpected } = require("../../../dist-esm/src/isUnexpected");
 dotenv.config();
 
 const endpoint =
@@ -58,9 +58,9 @@ async function main() {
   console.log("Total documents submitted for translation = " + responseBody.summary.total);
   console.log("Total characters charged = " + responseBody.summary.totalCharacterCharged);
 
-  main().catch((err) => {
+  
+}
+main().catch((err) => {
     console.error(err);
   });
-}
-
 module.exports = { main };

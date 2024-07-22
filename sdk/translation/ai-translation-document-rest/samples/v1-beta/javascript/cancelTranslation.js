@@ -6,19 +6,19 @@
  */
 
 const dotenv = require("dotenv");
-const createClient = require("../src/documentTranslationClient").default;
+const createClient = require("@azure-rest/ai-translation-document").default;
 const {
   ONE_TEST_DOCUMENTS,
   createSourceContainer,
   createTargetContainer,
-} = require("../test/public/utils/samplesHelper");
+} = require("../../../dist-esm/test/public/utils/samplesHelper");
 const {
   createSourceInput,
   createTargetInput,
   createBatchRequest,
   getTranslationOperationID,
-} = require("../test/public/utils/testHelper");
-const { isUnexpected } = require("../src/isUnexpected");
+} = require("../../../dist-esm/test/public/utils/testHelper");
+const { isUnexpected } = require("../../../dist-esm/src/isUnexpected");
 dotenv.config();
 
 const endpoint =
@@ -54,9 +54,11 @@ async function main() {
   }
   console.log("The status after cancelling the batch operation is:" + response.body.status);
 
-  main().catch((err) => {
-    console.error(err);
-  });
+  
 }
+
+main().catch((err) => {
+  console.error(err);
+});
 
 module.exports = { main };

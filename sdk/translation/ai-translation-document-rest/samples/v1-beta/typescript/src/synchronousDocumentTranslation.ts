@@ -6,8 +6,8 @@
  */
 
 import * as dotenv from "dotenv";
-import { DocumentTranslateParameters, isUnexpected } from "../src";
-import createClient from "../src/documentTranslationClient";
+import createClient from "@azure-rest/ai-translation-document";
+import { DocumentTranslateParameters, isUnexpected } from "../../../../src";
 dotenv.config();
 
 const endpoint =
@@ -48,7 +48,7 @@ export async function main() {
   }
   console.log("Response code: " + response.status + ", Response body: " + response.body);
 
-  main().catch((err) => {
+  
+}main().catch((err) => {
     console.error(err);
   });
-}

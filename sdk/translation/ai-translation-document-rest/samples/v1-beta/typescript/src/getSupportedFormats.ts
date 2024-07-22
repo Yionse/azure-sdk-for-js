@@ -6,8 +6,20 @@
  */
 
 import * as dotenv from "dotenv";
-import createClient from "../src/documentTranslationClient";
-import { isUnexpected } from "../src/isUnexpected";
+import createClient from "@azure-rest/ai-translation-document";
+import {
+  ONE_TEST_DOCUMENTS,
+  createSourceContainer,
+  createTargetContainer,
+  StartTranslationAndWait
+} from "../../../../test/public/utils/samplesHelper";
+import {
+  createSourceInput,
+  createTargetInput,
+  createBatchRequest,
+  getTranslationOperationID,
+} from "../../../../test/public/utils/testHelper";
+import { isUnexpected } from "../../../../src/isUnexpected";
 dotenv.config();
 
 const endpoint =
@@ -34,9 +46,7 @@ export async function main() {
     },
   );
 
-  main().catch((err) => {
-    console.error(err);
-  });
+
 }
 
 main().catch((err) => {

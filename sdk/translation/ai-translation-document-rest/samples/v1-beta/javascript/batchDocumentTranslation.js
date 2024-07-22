@@ -6,19 +6,19 @@
  */
 
 const dotenv = require("dotenv");
-const createClient = require("../src/documentTranslationClient").default;
+const createClient = require("@azure-rest/ai-translation-document").default;
 const {
   ONE_TEST_DOCUMENTS,
   createSourceContainer,
   createTargetContainer,
-} = require("../test/public/utils/samplesHelper");
+} = require("../../../dist-esm/test/public/utils/samplesHelper");
 const {
   createSourceInput,
   createTargetInput,
   createBatchRequest,
   getTranslationOperationID,
-} = require("../test/public/utils/testHelper");
-const { isUnexpected } = require("../src/isUnexpected");
+} = require("../../../dist-esm/test/public/utils/testHelper");
+const { isUnexpected } = require("../../../dist-esm/src/isUnexpected");
 dotenv.config();
 
 const endpoint =
@@ -32,25 +32,23 @@ async function main() {
   const client = createClient(endpoint, credentials);
 
   const sourceUrl = await createSourceContainer(ONE_TEST_DOCUMENTS);
-  const sourceInput = createSourceInput(sourceUrl);
-  const targetUrl = await createTargetContainer();
-  const targetInput = createTargetInput(targetUrl, "fr");
-  const batchRequest = createBatchRequest(sourceInput, [targetInput]);
+const sourceInput = createSourceInput(sourceUrl);
+const targetUrl = await createTargetContainer();
+const targetInput = createTargetInput(targetUrl, "fr");
+const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
-  //Start translation
-  const batchRequests = { inputs: [batchRequest] };
-  const poller = await client.path("/document/batches").post({
-    body: batchRequests,
-  });
-  if (isUnexpected(poller)) {
-    throw poller.body;
-  }
-  const id = getTranslationOperationID(poller.headers["operation-location"]);
-  console.log("Translation started and the operationID is: " + id);
+//Start translation
+const batchRequests = {inputs: [batchRequest]};
+const poller = await client.path("/document/batches").post({
+body: batchRequests
+}); 
+const id = getTranslationOperationID(poller.headers["operation-location"]);
+console.log('Translation started and the operationID is: ' + id);
+  
+}
 
-  main().catch((err) => {
+main().catch((err) => {
     console.error(err);
   });
-}
 
 module.exports = { main };

@@ -6,21 +6,20 @@
  */
 
 import * as dotenv from "dotenv";
-import createClient from "../src/documentTranslationClient";
+import createClient from "@azure-rest/ai-translation-document";
 import {
   ONE_TEST_DOCUMENTS,
-  StartTranslationAndWait,
   createSourceContainer,
   createTargetContainer,
-} from "../test/public/utils/samplesHelper";
+  StartTranslationAndWait
+} from "../../../../test/public/utils/samplesHelper";
 import {
   createSourceInput,
   createTargetInput,
   createBatchRequest,
   getTranslationOperationID,
-} from "../test/public/utils/testHelper";
-import { GetTranslationStatus200Response } from "../src/responses";
-import { isUnexpected } from "../src";
+} from "../../../../test/public/utils/testHelper";
+import { isUnexpected } from "../../../../src/isUnexpected";
 dotenv.config();
 
 const endpoint =
@@ -48,7 +47,7 @@ export async function main() {
   //get Translation Status
   const response = (await client
     .path("/document/batches/{id}", operationId)
-    .get()) as GetTranslationStatus200Response;
+    .get()) as any;
 
   if (isUnexpected(response)) {
     throw response.body;
@@ -61,7 +60,7 @@ export async function main() {
   console.log("Total documents submitted for translation = " + responseBody.summary.total);
   console.log("Total characters charged = " + responseBody.summary.totalCharacterCharged);
 
-  main().catch((err) => {
+  
+}main().catch((err) => {
     console.error(err);
   });
-}

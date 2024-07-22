@@ -4,22 +4,21 @@
 /**
  * @summary This sample demonstrates how to get the Translations Status of a batch translation operation initiated by a user
  */
-
 import * as dotenv from "dotenv";
-import createClient from "../src/documentTranslationClient";
+import createClient from "@azure-rest/ai-translation-document";
 import {
   ONE_TEST_DOCUMENTS,
-  StartTranslationAndWait,
   createSourceContainer,
   createTargetContainer,
-} from "../test/public/utils/samplesHelper";
+  StartTranslationAndWait
+} from "../../../../test/public/utils/samplesHelper";
 import {
   createSourceInput,
   createTargetInput,
   createBatchRequest,
   getTranslationOperationID,
-} from "../test/public/utils/testHelper";
-import { isUnexpected } from "../src/isUnexpected";
+} from "../../../../test/public/utils/testHelper";
+import { isUnexpected } from "../../../../src/isUnexpected";
 dotenv.config();
 
 const endpoint =
@@ -64,7 +63,7 @@ export async function main() {
     console.log("Total characters charged = " + translationStatus.summary.totalCharacterCharged);
   }
 
-  main().catch((err) => {
+  
+}main().catch((err) => {
     console.error(err);
   });
-}

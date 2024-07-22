@@ -1,24 +1,28 @@
+// @ts-nocheck
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
+
 
 /**
  * @summary This sample demonstrates how to make a simple call to the Azure Document Translator service to start a batch translation
  */
 
 import * as dotenv from "dotenv";
-import createClient from "../src/documentTranslationClient";
+import createClient from "@azure-rest/ai-translation-document";
 import {
   ONE_TEST_DOCUMENTS,
   createSourceContainer,
   createTargetContainer,
-} from "../test/public/utils/samplesHelper";
+} from "../../../../test/public/utils/samplesHelper";
 import {
   createSourceInput,
   createTargetInput,
   createBatchRequest,
   getTranslationOperationID,
-} from "../test/public/utils/testHelper";
-import { isUnexpected } from "../src/isUnexpected";
+} from "../../../../test/public/utils/testHelper";
+import { isUnexpected } from "../../../../src/isUnexpected";
+
 dotenv.config();
 
 const endpoint =
@@ -48,7 +52,8 @@ export async function main() {
   const id = getTranslationOperationID(poller.headers["operation-location"]);
   console.log("Translation started and the operationID is: " + id);
 
-  main().catch((err) => {
+  
+}
+main().catch((err) => {
     console.error(err);
   });
-}

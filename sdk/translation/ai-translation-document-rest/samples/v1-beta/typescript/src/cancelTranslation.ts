@@ -6,19 +6,19 @@
  */
 
 import * as dotenv from "dotenv";
-import createClient from "../src/documentTranslationClient";
+import createClient from "@azure-rest/ai-translation-document";
 import {
   ONE_TEST_DOCUMENTS,
   createSourceContainer,
   createTargetContainer,
-} from "../test/public/utils/samplesHelper";
+} from "../../../../test/public/utils/samplesHelper";
 import {
   createSourceInput,
   createTargetInput,
   createBatchRequest,
   getTranslationOperationID,
-} from "../test/public/utils/testHelper";
-import { isUnexpected } from "../src/isUnexpected";
+} from "../../../../test/public/utils/testHelper";
+import { isUnexpected } from "../../../../src/isUnexpected";
 dotenv.config();
 
 const endpoint =
@@ -54,7 +54,8 @@ export async function main() {
   }
   console.log("The status after cancelling the batch operation is:" + response.body.status);
 
-  main().catch((err) => {
+ 
+}
+ main().catch((err) => {
     console.error(err);
   });
-}
