@@ -5,6 +5,7 @@ require("dotenv").config();
 
 /**
  * @summary Demonstrates creating, accessing, and deleting a Dev Box
+ * @description 先创建资源 -> Dev center -> 在上一步中，创建 Project -> 完成后，在Project中创建pool，环境变量测试也是同理(此外还需要创建Definition)。此外此sample执行时间非常长，一个创建过程在30分钟，需要耐心等待。
  */
 async function createDevBox() {
   // Build client and fetch required parameters
