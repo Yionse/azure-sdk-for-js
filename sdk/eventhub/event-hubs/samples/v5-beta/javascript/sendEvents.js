@@ -19,7 +19,10 @@ async function main() {
 
   const credential = new DefaultAzureCredential();
 
-  const producer = new EventHubProducerClient(fullyQualifiedNamespace, eventHubName, credential);
+  // 同sendBufferedEvents
+  const producer = new EventHubProducerClient(
+    `${fullyQualifiedNamespace};EntityPath=${eventHubName}`,
+     credential);
 
   console.log("Creating and sending a batch of events...");
 
@@ -44,7 +47,7 @@ async function main() {
       // of the sample handle batching. In production we recommend using the default
       // and not specifying a maximum size.
       //
-      // maxSizeInBytes: 200
+      maxSizeInBytes: 200
     };
 
     let batch = await producer.createBatch(batchOptions);
@@ -53,7 +56,6 @@ async function main() {
 
     // add events to our batch
     let i = 0;
-
     while (i < eventsToSend.length) {
       // messages can fail to be added to the batch if they exceed the maximum size configured for
       // the EventHub.

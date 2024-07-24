@@ -38,6 +38,7 @@ export async function main(): Promise<void> {
    * Create a buffered client that batches the enqueued events and sends it either
    * after 750ms or after batching 1000 events, whichever occurs first.
    */
+  // 同Js中的sendBufferedEvets.js，但Ts有严格类型限制，如果少传入参数会报错
   const client = new EventHubBufferedProducerClient(
     fullyQualifiedNamespace,
     eventHubName,

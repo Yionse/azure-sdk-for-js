@@ -127,7 +127,7 @@ async function main() {
   console.log(`Running iothubConnectionString sample`);
 
   const eventHubsConnectionString = await convertIotHubToEventHubsConnectionString(
-    "HostName=<your-iot-hub>.azure-devices.net;SharedAccessKeyName=<KeyName>;SharedAccessKey=<Key>",
+      process.env.IOTHUB_EH_COMPATIBLE_CONNECTION_STRING
   );
 
   const consumerClient = new EventHubConsumerClient(consumerGroup, eventHubsConnectionString);

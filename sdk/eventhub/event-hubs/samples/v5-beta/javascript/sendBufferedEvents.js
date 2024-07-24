@@ -38,9 +38,10 @@ async function main() {
    * Create a buffered client that batches the enqueued events and sends it either
    * after 750ms or after batching 1000 events, whichever occurs first.
    */
+  console.log(fullyQualifiedNamespace, eventHubName);
   const client = new EventHubBufferedProducerClient(
-    fullyQualifiedNamespace,
-    eventHubName,
+    // 当将EventName和fullQualifiedNamespace作为参数传入时，会报错，而拼成一个参数就不会
+    `${fullyQualifiedNamespace};EntityPath=${eventHubName}`,
     credential,
     {
       /** An error handler must be provided */
