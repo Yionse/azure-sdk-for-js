@@ -5,10 +5,12 @@
  * Demonstrates how to get chat completions for a chat context.
  *
  * @summary get chat completions.
+ * @description 建好资源aichat资源后，需要在Azure ai studio 中找到对应的endpoint和apikey，注意endpoint需要裁掉最后一部分。
  */
 
 const ModelClient = require("@azure-rest/ai-inference").default,
   { isUnexpected } = require("@azure-rest/ai-inference");
+const { AzureKeyCredential } = require("@azure/core-auth");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
@@ -20,7 +22,8 @@ const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 async function main() {
   console.log("== Chat Completions Sample ==");
 
-  const client = ModelClient(endpoint, new DefaultAzureCredential());
+  const key = process.env["API_KEY"] || "<api-key>";
+  const client = ModelClient(endpoint, new AzureKeyCredential(key));
   const response = await client.path("/chat/completions").post({
     body: {
       messages: [

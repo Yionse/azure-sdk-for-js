@@ -13,6 +13,7 @@ import fs from 'fs';
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
+import { AzureKeyCredential } from "@azure/core-auth";
 dotenv.config();
 
 // You will need to set these environment variables or edit the following values
@@ -25,7 +26,8 @@ export async function main() {
   console.log("== Chat Completions Sample ==");
   const credential = new DefaultAzureCredential();
 
-  const client = ModelClient(endpoint, credential);
+  const key = process.env.API_KEY || "<api-key>";
+  const client = ModelClient(endpoint, new AzureKeyCredential(key));
 
   const response = await client.path("/chat/completions").post({
     body: {

@@ -9,6 +9,7 @@
 
 const ModelClient = require("@azure-rest/ai-inference").default,
   { isUnexpected } = require("@azure-rest/ai-inference");
+const { AzureKeyCredential } = require("@azure/core-auth");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
@@ -20,7 +21,8 @@ const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 async function main() {
   console.log("== Get Model Info Sample ==");
 
-  const client = ModelClient(endpoint, new DefaultAzureCredential());
+  const key = process.env["API_KEY"] || "<api-key>";
+  const client = ModelClient(endpoint, new AzureKeyCredential(key));
   const response = await client.path("/info").get();
 
   if (isUnexpected(response)) {

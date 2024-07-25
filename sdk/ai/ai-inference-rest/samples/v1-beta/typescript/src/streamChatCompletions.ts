@@ -5,6 +5,7 @@
  * Demonstrates how to list chat completions for a chat context.
  *
  * @summary list chat completions.
+ * @description 无法成功打包，搁置。
  */
 
 import ModelClient from "@azure-rest/ai-inference";

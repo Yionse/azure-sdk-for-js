@@ -8,6 +8,7 @@
  */
 
 import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
+import { AzureKeyCredential } from "@azure/core-auth";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
@@ -21,7 +22,8 @@ export async function main() {
   console.log("== Chat Completions Sample ==");
   const credential = new DefaultAzureCredential();
 
-  const client = ModelClient(endpoint, credential);
+  const key = process.env.API_KEY || "<api-key>";
+  const client = ModelClient(endpoint, new AzureKeyCredential(key));
   const response = await client.path("/embeddings").post({
     body: {
       input: ["first phrase", "second phrase", "third phrase"]

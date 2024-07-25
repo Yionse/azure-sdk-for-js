@@ -8,6 +8,7 @@
  */
 
 import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
+import { AzureKeyCredential } from "@azure/core-auth";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
@@ -39,7 +40,8 @@ const getCurrentWeather = {
 export async function main() {
   console.log("== Chat Completions Sample With Functions ==");
 
-  const client = ModelClient(endpoint, new DefaultAzureCredential()));
+  const key = process.env.API_KEY || "<api-key>";
+  const client = ModelClient(endpoint, new AzureKeyCredential(key));
   const response = await client.path("/chat/completions").post({
     body: {
       messages: [{ role: "user", content: "What's the weather like in Boston?" }],

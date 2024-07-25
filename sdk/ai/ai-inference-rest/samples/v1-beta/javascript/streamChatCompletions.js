@@ -10,6 +10,7 @@
 const ModelClient = require("@azure-rest/ai-inference").default;
 const { DefaultAzureCredential } = require("@azure/identity");
 const { createSseStream } = require("@azure/core-sse");
+const { AzureKeyCredential } = require("@azure/core-auth");
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -19,8 +20,8 @@ const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 
 async function main() {
   console.log("== Streaming Chat Completions Sample ==");
-
-  const client = ModelClient(endpoint, new DefaultAzureCredential());
+  const key = process.env.API_KEY;
+  const client = ModelClient(endpoint, new AzureKeyCredential(key));
   const response = await client
     .path("/chat/completions")
     .post({
