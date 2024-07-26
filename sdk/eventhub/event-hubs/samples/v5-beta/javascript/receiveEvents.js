@@ -6,7 +6,7 @@
  */
 
 const { EventHubConsumerClient, earliestEventPosition } = require("@azure/event-hubs");
-const { DefaultAzureCredential } = require("@azure/identity");
+const { DefaultAzureCredential, AzureCliCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
 require("dotenv/config");
@@ -18,12 +18,11 @@ const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "<your consumer grou
 async function main() {
   console.log(`Running receiveEvents sample`);
 
-  const credential = new DefaultAzureCredential();
+  const credential = new AzureCliCredential();
   const consumerClient = new EventHubConsumerClient(
-    consumerGroup,
+    "conumergroup1",
     fullyQualifiedNamespace,
     eventHubName,
-    credential,
   );
 
   const subscription = consumerClient.subscribe(

@@ -39,21 +39,16 @@ async function main() {
    * after 750ms or after batching 1000 events, whichever occurs first.
    */
   console.log(fullyQualifiedNamespace, eventHubName);
-  const client = new EventHubBufferedProducerClient(
-    // 当将EventName和fullQualifiedNamespace作为参数传入时，会报错，而拼成一个参数就不会
-    `${fullyQualifiedNamespace};EntityPath=${eventHubName}`,
-    credential,
-    {
-      /** An error handler must be provided */
-      onSendEventsErrorHandler,
+  const client = new EventHubBufferedProducerClient(fullyQualifiedNamespace, eventHubName, {
+    /** An error handler must be provided */
+    onSendEventsErrorHandler,
 
-      /** wait for up to 750 milliseconds before sending a batch */
-      maxWaitTimeInMs: 750,
+    /** wait for up to 750 milliseconds before sending a batch */
+    maxWaitTimeInMs: 750,
 
-      /** buffer up to 1000 events per partition before sending */
-      maxEventBufferLengthPerPartition: 1000,
-    },
-  );
+    /** buffer up to 1000 events per partition before sending */
+    maxEventBufferLengthPerPartition: 1000,
+  });
 
   function createData(count) {
     return [...Array(count).keys()];

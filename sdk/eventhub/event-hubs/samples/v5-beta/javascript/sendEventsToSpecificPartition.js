@@ -19,10 +19,7 @@ async function main() {
 
   const credential = new DefaultAzureCredential();
 
-  const producer = new EventHubProducerClient(
-    `${fullyQualifiedNamespace};EntityPath=${eventHubName}`,
-    credential,
-    {
+  const producer = new EventHubProducerClient(fullyQualifiedNamespace, eventHubName, {
     retryOptions: {
       maxRetries: 5,
       mode: RetryMode.Exponential,

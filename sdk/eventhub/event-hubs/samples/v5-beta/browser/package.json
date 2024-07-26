@@ -7,7 +7,7 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "build": "rimraf ./dist && webpack-cli --entry ./src/index.js --output-path ./dist --output-filename app.js && npm run start",
+    "build": "rimraf ./dist && webpack-cli --entry ./src/index.js --output-path ./dist --output-filename app.js",
     "start": "http-server ./"
   },
   "repository": {
