@@ -6,7 +6,11 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { SearchIndexerClient, SearchIndexerDataSourceConnection } from "@azure/search-documents";
+import {
+  AzureKeyCredential,
+  SearchIndexerClient,
+  SearchIndexerDataSourceConnection,
+} from "@azure/search-documents";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -39,7 +43,7 @@ async function getAndUpdateDataSourceConnection(
   console.log(`Get And Update DS Connection Operation`);
   const ds: SearchIndexerDataSourceConnection =
     await client.getDataSourceConnection(dataSourceConnectionName);
-  ds.container.name = "Listings_5K_KingCounty_WA";
+  ds.container.name = "Listings-5K-KingCounty-WA";
   console.log(`Updating Container Name of Datasource Connection ${dataSourceConnectionName}`);
   await client.createOrUpdateDataSourceConnection(ds);
 }
@@ -79,7 +83,10 @@ async function main(): Promise<void> {
     console.log("Be sure to set a valid endpoint with proper authorization.");
     return;
   }
-  const client = new SearchIndexerClient(endpoint, new DefaultAzureCredential());
+  const client = new SearchIndexerClient(
+    endpoint,
+    new AzureKeyCredential(process.env.API_KEY || ""),
+  );
   try {
     await createDataSourceConnection(TEST_DATA_SOURCE_CONNECTION_NAME, client);
     await getAndUpdateDataSourceConnection(TEST_DATA_SOURCE_CONNECTION_NAME, client);

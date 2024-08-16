@@ -6,7 +6,7 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { SearchIndexClient, SynonymMap } from "@azure/search-documents";
+import { AzureKeyCredential, SearchIndexClient, SynonymMap } from "@azure/search-documents";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -60,7 +60,7 @@ async function main(): Promise<void> {
     console.log("Be sure to set a valid endpoint with proper authorization.");
     return;
   }
-  const client = new SearchIndexClient(endpoint, new DefaultAzureCredential());
+  const client = new SearchIndexClient(endpoint, new AzureKeyCredential(process.env.API_KEY || ""));
   try {
     await createSynonymMap(TEST_SYNONYM_MAP_NAME, client);
     await getAndUpdateSynonymMap(TEST_SYNONYM_MAP_NAME, client);

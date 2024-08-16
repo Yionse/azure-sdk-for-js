@@ -7,6 +7,7 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import {
+  AzureKeyCredential,
   GeographyPoint,
   SearchClient,
   SearchIndexClient,
@@ -69,9 +70,12 @@ async function main(): Promise<void> {
   const searchClient: SearchClient<Hotel> = new SearchClient<Hotel>(
     endpoint,
     TEST_INDEX_NAME,
-    credential,
+    new AzureKeyCredential(process.env.API_KEY || ""),
   );
-  const indexClient: SearchIndexClient = new SearchIndexClient(endpoint, credential);
+  const indexClient: SearchIndexClient = new SearchIndexClient(
+    endpoint,
+    new AzureKeyCredential(process.env.API_KEY || ""),
+  );
 
   try {
     await createIndex(indexClient, TEST_INDEX_NAME);

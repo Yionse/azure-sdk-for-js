@@ -6,7 +6,12 @@
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
-const { GeographyPoint, SearchClient, SearchIndexClient } = require("@azure/search-documents");
+const {
+  GeographyPoint,
+  SearchClient,
+  SearchIndexClient,
+  AzureKeyCredential,
+} = require("@azure/search-documents");
 const { createIndex, delay, WAIT_TIME } = require("./setup");
 
 const dotenv = require("dotenv");
@@ -17,7 +22,7 @@ dotenv.config();
  * This sample is to demonstrate the use of SearchClient's vector search feature.
  */
 const endpoint = process.env.ENDPOINT || "";
-const TEST_INDEX_NAME = "example-index-sample-7";
+const TEST_INDEX_NAME = "afdsdghdfh45645f" + +new Date();
 
 async function main() {
   if (!endpoint) {
@@ -27,9 +32,13 @@ async function main() {
 
   const credential = new DefaultAzureCredential();
 
-  const searchClient = new SearchClient(endpoint, TEST_INDEX_NAME, credential);
+  const searchClient = new SearchClient(
+    endpoint,
+    TEST_INDEX_NAME,
+    new AzureKeyCredential(process.env.KEY),
+  );
 
-  const indexClient = new SearchIndexClient(endpoint, credential);
+  const indexClient = new SearchIndexClient(endpoint, new AzureKeyCredential(process.env.KEY));
   try {
     await createIndex(indexClient, TEST_INDEX_NAME);
     await delay(WAIT_TIME);
@@ -69,7 +78,7 @@ async function main() {
     }
 
     await delay(WAIT_TIME);
-
+    console.log("123123");
     const searchResults = await searchClient.search("*", {
       vectorSearchOptions: {
         queries: [
@@ -98,13 +107,14 @@ async function main() {
         ],
       },
     });
+    console.log("123123");
 
     for await (const result of searchResults.results) {
       const name = result.document.hotelName;
       console.log(name);
     }
   } finally {
-    await indexClient.deleteIndex(TEST_INDEX_NAME);
+    // await indexClient.deleteIndex(TEST_INDEX_NAME);
   }
 }
 

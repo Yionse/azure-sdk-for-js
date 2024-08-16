@@ -8,7 +8,7 @@
 const { KnownAnalyzerNames } = require("@azure/search-documents");
 const { env } = require("process");
 
-const WAIT_TIME = 4000;
+const WAIT_TIME = 40000;
 
 const documentKeyRetriever = (document) => {
   return document.hotelId;

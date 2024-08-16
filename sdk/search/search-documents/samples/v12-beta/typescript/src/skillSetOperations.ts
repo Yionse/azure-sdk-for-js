@@ -6,7 +6,11 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { SearchIndexerClient, SearchIndexerSkillset } from "@azure/search-documents";
+import {
+  AzureKeyCredential,
+  SearchIndexerClient,
+  SearchIndexerSkillset,
+} from "@azure/search-documents";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -112,7 +116,10 @@ async function main(): Promise<void> {
     console.log("Be sure to set a valid endpoint with proper authorization.");
     return;
   }
-  const client = new SearchIndexerClient(endpoint, new DefaultAzureCredential());
+  const client = new SearchIndexerClient(
+    endpoint,
+    new AzureKeyCredential(process.env.API_KEY || ""),
+  );
   try {
     await createSkillset(TEST_SKILLSET_NAME, client);
     await getAndUpdateSkillset(TEST_SKILLSET_NAME, client);

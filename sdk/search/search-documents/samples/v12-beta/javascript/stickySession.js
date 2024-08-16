@@ -7,7 +7,7 @@
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
-const { odata, SearchIndexClient } = require("@azure/search-documents");
+const { odata, SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
 const { createIndex, delay, WAIT_TIME } = require("./setup");
 
 require("dotenv").config();
@@ -34,7 +34,7 @@ async function main() {
   }
 
   const credential = new DefaultAzureCredential();
-  const indexClient = new SearchIndexClient(endpoint, credential);
+  const indexClient = new SearchIndexClient(endpoint, new AzureKeyCredential(process.env.API_KEY));
   const searchClient = indexClient.getSearchClient(TEST_INDEX_NAME);
 
   // The session id is defined by the user.

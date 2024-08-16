@@ -6,7 +6,12 @@
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
-const { GeographyPoint, SearchClient, SearchIndexClient } = require("@azure/search-documents");
+const {
+  GeographyPoint,
+  SearchClient,
+  SearchIndexClient,
+  AzureKeyCredential,
+} = require("@azure/search-documents");
 const { createIndex, delay, WAIT_TIME } = require("./setup");
 
 require("dotenv").config();
@@ -29,9 +34,13 @@ async function main() {
   // For the best experience, ensure that every property of the model type can be assigned `null`
   // except for the document key. All properties should be optional, but you may mark properties as
   // non-optional when your queries always select them.
-  const searchClient = new SearchClient(endpoint, TEST_INDEX_NAME, credential);
+  const searchClient = new SearchClient(
+    endpoint,
+    TEST_INDEX_NAME,
+    new AzureKeyCredential(process.env.API_KEY),
+  );
 
-  const indexClient = new SearchIndexClient(endpoint, credential);
+  const indexClient = new SearchIndexClient(endpoint, new AzureKeyCredential(process.env.API_KEY));
   try {
     await createIndex(indexClient, TEST_INDEX_NAME);
     await delay(WAIT_TIME);

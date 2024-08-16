@@ -6,7 +6,7 @@
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
-const { SearchIndexClient } = require("@azure/search-documents");
+const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
 
 require("dotenv").config();
 
@@ -137,7 +137,7 @@ async function main() {
     console.log("Be sure to set a valid endpoint with proper authorization.");
     return;
   }
-  const client = new SearchIndexClient(endpoint, new DefaultAzureCredential());
+  const client = new SearchIndexClient(endpoint, new AzureKeyCredential(process.env.API_KEY));
   try {
     await createIndex(TEST_INDEX_NAME, client);
     await getAndUpdateIndex(TEST_INDEX_NAME, client);

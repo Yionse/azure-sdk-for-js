@@ -7,7 +7,12 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { odata, SearchClient, SearchIndexClient } from "@azure/search-documents";
+import {
+  AzureKeyCredential,
+  odata,
+  SearchClient,
+  SearchIndexClient,
+} from "@azure/search-documents";
 import { Hotel } from "./interfaces";
 import { createIndex, delay, WAIT_TIME } from "./setup";
 
@@ -36,7 +41,10 @@ async function main(): Promise<void> {
   }
 
   const credential = new DefaultAzureCredential();
-  const indexClient: SearchIndexClient = new SearchIndexClient(endpoint, credential);
+  const indexClient: SearchIndexClient = new SearchIndexClient(
+    endpoint,
+    new AzureKeyCredential(process.env.API_KEY || ""),
+  );
   const searchClient: SearchClient<Hotel> = indexClient.getSearchClient<Hotel>(TEST_INDEX_NAME);
 
   // The session id is defined by the user.

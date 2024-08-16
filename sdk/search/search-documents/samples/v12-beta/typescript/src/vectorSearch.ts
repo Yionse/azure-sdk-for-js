@@ -6,7 +6,12 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { GeographyPoint, SearchClient, SearchIndexClient } from "@azure/search-documents";
+import {
+  AzureKeyCredential,
+  GeographyPoint,
+  SearchClient,
+  SearchIndexClient,
+} from "@azure/search-documents";
 import { Hotel } from "./interfaces";
 import { createIndex, delay, WAIT_TIME } from "./setup";
 
@@ -31,10 +36,12 @@ async function main(): Promise<void> {
   const searchClient: SearchClient<Hotel> = new SearchClient<Hotel>(
     endpoint,
     TEST_INDEX_NAME,
-    credential,
+    new AzureKeyCredential(process.env.API_KEY || ""),
   );
-
-  const indexClient: SearchIndexClient = new SearchIndexClient(endpoint, credential);
+  const indexClient: SearchIndexClient = new SearchIndexClient(
+    endpoint,
+    new AzureKeyCredential(process.env.API_KEY || ""),
+  );
   try {
     await createIndex(indexClient, TEST_INDEX_NAME);
     await delay(WAIT_TIME);

@@ -6,7 +6,7 @@
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
-const { SearchIndexerClient } = require("@azure/search-documents");
+const { SearchIndexerClient, AzureKeyCredential } = require("@azure/search-documents");
 
 require("dotenv").config();
 
@@ -67,7 +67,7 @@ async function main() {
     console.log("Be sure to set a valid endpoint with proper authorization.");
     return;
   }
-  const client = new SearchIndexerClient(endpoint, new DefaultAzureCredential());
+  const client = new SearchIndexerClient(endpoint, new AzureKeyCredential(process.env.KEY));
   try {
     await createDataSourceConnection(TEST_DATA_SOURCE_CONNECTION_NAME, client);
     await getAndUpdateDataSourceConnection(TEST_DATA_SOURCE_CONNECTION_NAME, client);

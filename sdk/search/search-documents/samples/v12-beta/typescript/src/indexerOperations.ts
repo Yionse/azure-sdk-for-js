@@ -6,7 +6,12 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { SearchIndexer, SearchIndexerClient, SearchIndexerStatus } from "@azure/search-documents";
+import {
+  AzureKeyCredential,
+  SearchIndexer,
+  SearchIndexerClient,
+  SearchIndexerStatus,
+} from "@azure/search-documents";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -101,7 +106,10 @@ async function main(): Promise<void> {
     console.log("Be sure to set a valid endpoint with proper authorization.");
     return;
   }
-  const client = new SearchIndexerClient(endpoint, new DefaultAzureCredential());
+  const client = new SearchIndexerClient(
+    endpoint,
+    new AzureKeyCredential(process.env.API_KEY || ""),
+  );
   try {
     await createIndexer(TEST_INDEXER_NAME, client);
     await getAndUpdateIndexer(TEST_INDEXER_NAME, client);

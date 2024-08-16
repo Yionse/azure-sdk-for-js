@@ -11,6 +11,7 @@ const {
   SearchClient,
   SearchIndexClient,
   SearchIndexingBufferedSender,
+  AzureKeyCredential,
 } = require("@azure/search-documents");
 const { createIndex, delay, documentKeyRetriever, WAIT_TIME } = require("./setup");
 
@@ -33,8 +34,12 @@ async function main() {
   console.log(`Running SearchIndexingBufferedSender-uploadDocuments-Without AutoFlush Sample`);
 
   const credential = new DefaultAzureCredential();
-  const searchClient = new SearchClient(endpoint, TEST_INDEX_NAME, credential);
-  const indexClient = new SearchIndexClient(endpoint, credential);
+  const searchClient = new SearchClient(
+    endpoint,
+    TEST_INDEX_NAME,
+    new AzureKeyCredential(process.env.KEY),
+  );
+  const indexClient = new SearchIndexClient(endpoint, new AzureKeyCredential(process.env.KEY));
 
   try {
     await createIndex(indexClient, TEST_INDEX_NAME);
